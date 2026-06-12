@@ -113,6 +113,7 @@ export const CrearNotaDesktop = () => {
                         Escritura
                     </button>
                     <button
+                        data-tour="create-preview"
                         onClick={() => setActiveTab('preview')}
                         className={`px-5 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${
                             activeTab === 'preview'
@@ -126,6 +127,7 @@ export const CrearNotaDesktop = () => {
 
                 <div className="ml-auto flex items-center gap-3">
                     <button
+                        data-tour="create-share"
                         type="button"
                         onClick={() => setShareToForum(v => !v)}
                         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
@@ -141,6 +143,7 @@ export const CrearNotaDesktop = () => {
                         Comunidad
                     </button>
                     <button
+                        data-tour="create-save"
                         onClick={handleSaveWithXP}
                         disabled={isSaving || !title.trim() || blocks.length === 0}
                         className="px-5 py-2 rounded-lg text-xs font-bold transition-colors bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-40 disabled:cursor-not-allowed"
@@ -166,7 +169,7 @@ export const CrearNotaDesktop = () => {
                         />
 
                         {/* Configuración colapsable */}
-                        <div className="rounded-sm bg-white dark:bg-[#0a0b0e] border border-slate-200 dark:border-white/5 overflow-hidden transition-all">
+                        <div data-tour="create-meta" className="rounded-sm bg-white dark:bg-[#0a0b0e] border border-slate-200 dark:border-white/5 overflow-hidden transition-all">
                             <div
                                 onClick={() => setIsFiltersOpen(!isFiltersOpen)}
                                 className="flex items-center justify-between p-4 cursor-pointer select-none"
@@ -359,6 +362,7 @@ export const CrearNotaDesktop = () => {
                             ))}
 
                             <button
+                                data-tour="create-add-block"
                                 onClick={() => setIsBlockModalOpen(true)}
                                 className="w-full py-3 rounded-sm border border-dashed text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors border-slate-200 dark:border-white/10 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-white/20"
                             >
