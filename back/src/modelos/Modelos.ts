@@ -683,7 +683,8 @@ export class Logro extends Model {
             'challenge_count', 'note_count', 'comment_count',
             'solutions_given', 'level_reached', 'streak_days',
             'xp_total', 'custom',
-            'post_count', 'post_featured', 'avatar_changed'
+            'post_count', 'post_featured', 'avatar_changed',
+            'troll_hunt_count', 'mentorship_count', 'showcase_upvotes', 'tournament_podium'
         ),
         allowNull: false,
     })

@@ -3,7 +3,7 @@ import { db } from '../config/db.js';
 async function run() {
     await db.authenticate();
 
-    const nuevosValores = ['post_count', 'post_featured', 'avatar_changed'];
+    const nuevosValores = ['post_count', 'post_featured', 'avatar_changed', 'troll_hunt_count', 'mentorship_count', 'showcase_upvotes', 'tournament_podium'];
 
     for (const valor of nuevosValores) {
         try {

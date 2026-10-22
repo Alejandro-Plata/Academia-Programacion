@@ -29,11 +29,29 @@ import { swaggerSpec } from './docs/swagger.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// sync({ alter: true }) no siempre añade valores nuevos a un ENUM de Postgres ya creado, y sin ellos
+// ServicioLogros falla con "invalid input value for enum" al desbloquear logros de esos tipos.
+const TIPOS_LOGRO = [
+    'post_count', 'post_featured', 'avatar_changed',
+    'troll_hunt_count', 'mentorship_count', 'showcase_upvotes', 'tournament_podium',
+];
+
+async function asegurarValoresEnumLogros() {
+    for (const valor of TIPOS_LOGRO) {
+        try {
+            await db.query(`ALTER TYPE "enum_achievements_trigger_type" ADD VALUE IF NOT EXISTS '${valor}'`);
+        } catch (err: any) {
+            console.warn(`No se pudo añadir '${valor}' al ENUM de logros: ${err.message}`);
+        }
+    }
+}
+
 export async function conectarBD(retries = 5, delayMs = 3000) {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             await db.authenticate();
             await db.sync({ alter: true });
+            await asegurarValoresEnumLogros();
             return;
         } catch (error) {
             console.error(`Error BD (intento ${attempt}/${retries}):`, error);
