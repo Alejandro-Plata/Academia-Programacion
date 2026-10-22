@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { autenticar } from '../middleware/middlewareAuth.js';
 import { ControladorReto } from '../controladores/ControladorReto.js';
 
@@ -11,7 +11,7 @@ const limiteForja = rateLimit({
     max: 8,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => (req as any).user?.user_id ?? req.ip,
+    keyGenerator: (req) => (req as any).user?.user_id ?? ipKeyGenerator(req.ip ?? ''),
     message: { msg: 'Has forjado demasiados retos. Inténtalo más tarde.' },
 });
 

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { autenticar } from '../middleware/middlewareAuth.js';
 import { ControladorCazaTroll } from '../controladores/ControladorCazaTroll.js';
 
@@ -10,7 +10,7 @@ const limiteInicio = rateLimit({
     max: 15,
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => (req as any).user?.user_id ?? req.ip,
+    keyGenerator: (req) => (req as any).user?.user_id ?? ipKeyGenerator(req.ip ?? ''),
     message: { msg: 'Demasiadas cazas iniciadas. Inténtalo más tarde.' },
 });
 
