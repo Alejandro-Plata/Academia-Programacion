@@ -4,16 +4,16 @@
  * compatible cambiando variables de entorno:
  *   AI_API_KEY       clave del proveedor (también se acepta GEMINI_API_KEY)
  *   AI_BASE_URL      por defecto https://generativelanguage.googleapis.com/v1beta/openai
- *   AI_MODEL_RAPIDO  por defecto gemini-2.5-flash-lite
- *   AI_MODEL_POTENTE por defecto gemini-2.5-flash
+ *   AI_MODEL_RAPIDO  por defecto gemini-3.5-flash-lite
+ *   AI_MODEL_POTENTE por defecto gemini-3.5-flash
  */
 const BASE_URL = (process.env.AI_BASE_URL ?? 'https://generativelanguage.googleapis.com/v1beta/openai').replace(/\/$/, '');
 const API_KEY = () => process.env.AI_API_KEY ?? process.env.GEMINI_API_KEY ?? '';
 
 /** Selección de modelo según la tarea. */
 export const MODELO = {
-    rapido: process.env.AI_MODEL_RAPIDO ?? 'gemini-2.5-flash-lite',  // tareas rutinarias (resúmenes, perfil)
-    potente: process.env.AI_MODEL_POTENTE ?? 'gemini-2.5-flash',     // generación/revisión exigente
+    rapido: process.env.AI_MODEL_RAPIDO ?? 'gemini-3.5-flash-lite',  // tareas rutinarias (resúmenes, perfil)
+    potente: process.env.AI_MODEL_POTENTE ?? 'gemini-3.5-flash',     // generación/revisión exigente
 } as const;
 
 const TIMEOUT_MS = 30_000;
