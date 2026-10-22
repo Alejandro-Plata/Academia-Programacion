@@ -16,7 +16,16 @@ export const MODELO = {
     potente: process.env.AI_MODEL_POTENTE ?? 'gemini-3.5-flash',     // generación/revisión exigente
 } as const;
 
-const TIMEOUT_MS = 30_000;
+const TIMEOUT_MS = 60_000;
+
+/**
+ * Los modelos Gemini 2.5+ "piensan" antes de responder y esos tokens de razonamiento cuentan contra
+ * max_tokens: con 2500 solo quedaban unos cientos para el JSON y la respuesta salía cortada
+ * ("Unterminated string in JSON"). Se suma un margen para el razonamiento.
+ * AI_REASONING_EFFORT (none|low|medium|high) lo limita desde el proveedor si éste lo admite.
+ */
+const MARGEN_RAZONAMIENTO = 6000;
+const REASONING_EFFORT = process.env.AI_REASONING_EFFORT;
 
 export interface MensajeIA {
     role: 'user' | 'assistant';
@@ -59,7 +68,11 @@ async function llamar(body: Record<string, unknown>): Promise<string> {
         throw new ErrorProveedorIA(r.status, `El proveedor de IA respondió ${r.status}: ${detalle}`);
     }
     const data: any = await r.json();
-    return data.choices?.[0]?.message?.content ?? '';
+    const eleccion = data.choices?.[0];
+    if (eleccion?.finish_reason === 'length') {
+        throw new Error('La respuesta de la IA se cortó por límite de tokens');
+    }
+    return eleccion?.message?.content ?? '';
 }
 
 /**
@@ -73,7 +86,12 @@ async function completar(body: Record<string, unknown>): Promise<string> {
     for (const model of modelos) {
         for (let intento = 0; intento < 3; intento++) {
             try {
-                return await llamar({ ...body, model });
+                return await llamar({
+                    ...body,
+                    model,
+                    max_tokens: Number(body.max_tokens ?? 1024) + MARGEN_RAZONAMIENTO,
+                    ...(REASONING_EFFORT ? { reasoning_effort: REASONING_EFFORT } : {}),
+                });
             } catch (e) {
                 ultimoError = e;
                 if (!esTransitorio(e)) throw e;
