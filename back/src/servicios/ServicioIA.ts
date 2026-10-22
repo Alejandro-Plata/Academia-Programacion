@@ -36,7 +36,15 @@ interface OpcionesJSON<T> extends OpcionesChat {
     validar?: (x: any) => x is T;
 }
 
-async function completar(body: Record<string, unknown>): Promise<string> {
+class ErrorProveedorIA extends Error {
+    constructor(public status: number, mensaje: string) { super(mensaje); }
+}
+
+const dormir = (ms: number) => new Promise(r => setTimeout(r, ms));
+/** Errores pasajeros del proveedor: sobrecarga (503), límite de ritmo (429) o fallos internos. */
+const esTransitorio = (e: unknown) => e instanceof ErrorProveedorIA && (e.status === 429 || e.status >= 500);
+
+async function llamar(body: Record<string, unknown>): Promise<string> {
     const key = API_KEY();
     if (!key) throw new Error('Falta AI_API_KEY: la IA no está configurada');
 
@@ -48,10 +56,32 @@ async function completar(body: Record<string, unknown>): Promise<string> {
     });
     if (!r.ok) {
         const detalle = (await r.text().catch(() => '')).slice(0, 200);
-        throw new Error(`El proveedor de IA respondió ${r.status}: ${detalle}`);
+        throw new ErrorProveedorIA(r.status, `El proveedor de IA respondió ${r.status}: ${detalle}`);
     }
     const data: any = await r.json();
     return data.choices?.[0]?.message?.content ?? '';
+}
+
+/**
+ * Llama al proveedor con reintentos con espera creciente ante errores pasajeros (503 "high demand", 429).
+ * Si el modelo sigue saturado, prueba con el otro modelo antes de rendirse.
+ */
+async function completar(body: Record<string, unknown>): Promise<string> {
+    const modelos = [body.model as string, ...[MODELO.rapido, MODELO.potente].filter(m => m !== body.model)];
+    let ultimoError: unknown;
+
+    for (const model of modelos) {
+        for (let intento = 0; intento < 3; intento++) {
+            try {
+                return await llamar({ ...body, model });
+            } catch (e) {
+                ultimoError = e;
+                if (!esTransitorio(e)) throw e;
+                if (intento < 2) await dormir(1000 * 2 ** intento);
+            }
+        }
+    }
+    throw ultimoError;
 }
 
 /** Algunos modelos envuelven el JSON en ```json ... ```; lo limpiamos antes de parsear. */
