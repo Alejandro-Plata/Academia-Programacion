@@ -8,22 +8,16 @@ export type AppTheme = 'light' | 'dark';
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     // 2. ESTADO INICIAL
+    // Oscuro por defecto. Solo se abre en claro si el usuario lo eligió con el selector de la web
+    // (queda guardado). Se ignora la preferencia del sistema: casi todos los navegadores
+    // declaran "claro" por defecto aunque nadie lo haya elegido.
     const [theme, setTheme] = useState<AppTheme>(() => {
-        if (typeof window === 'undefined') return 'dark';
-
-        const savedTheme = localStorage.getItem('theme');
-        
-        if (savedTheme === 'light' || savedTheme === 'dark') {
-            return savedTheme;
+        try {
+            return localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+        } catch {
+            // Almacenamiento bloqueado (modo privado, cookies desactivadas)
+            return 'dark';
         }
-
-        // Sin preferencia guardada: solo abrimos en claro si el navegador lo pide
-        // explícitamente. Si pide oscuro o no tiene ninguna preferencia, oscuro por defecto.
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-            return 'light';
-        }
-
-        return 'dark';
     });
 
     useEffect(() => {
@@ -35,27 +29,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     }, [theme]);
 
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-        const handleChange = () => {
-            // Solo cambiamos automáticamente si NO hay preferencia guardada.
-            // Misma regla que al arrancar: claro solo si el navegador lo pide
-            // explícitamente; en cualquier otro caso, oscuro.
-            if (!localStorage.getItem('theme')) {
-                const prefiereClaro = window.matchMedia('(prefers-color-scheme: light)').matches;
-                setTheme(prefiereClaro ? 'light' : 'dark');
-            }
-        };
-
-        mediaQuery.addEventListener('change', handleChange);
-        return () => mediaQuery.removeEventListener('change', handleChange);
-    }, []);
-
     const toggleTheme = () => {
         setTheme((prevTheme) => {
             const newTheme: AppTheme = prevTheme === 'dark' ? 'light' : 'dark';
-            localStorage.setItem('theme', newTheme);
+            try {
+                localStorage.setItem('theme', newTheme);
+            } catch { /* sin almacenamiento, el cambio dura solo esta visita */ }
             return newTheme;
         });
     };

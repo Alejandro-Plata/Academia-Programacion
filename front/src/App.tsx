@@ -7,6 +7,7 @@ import { RoleGuard } from './app/features/auth/components/RoleGuard';
 import { AchievementProvider } from './app/context/AchievementContext';
 import { MessagingProvider } from './app/context/MessagingProvider';
 import { TourProvider } from './app/components/Tour/TourProvider';
+import { DemoNotice } from './app/components/DemoNotice';
 import { notesTourSteps, NOTES_TOUR_ID } from './app/features/notes/tour/tourSteps.notes';
 
 const LayoutPanel        = lazy(() => import('./app/layouts').then(m => ({ default: m.LayoutPanel })));
@@ -105,6 +106,7 @@ export default function App() {
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </Suspense>
+              <DemoNotice />
               </TourProvider>
             </BrowserRouter>
           </MessagingProvider>
