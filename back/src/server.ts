@@ -3,6 +3,8 @@ import path from 'path';
 import express from 'express';
 import passport from './config/passport.js';
 import { db } from './config/db.js';
+import { Logro } from './modelos/Modelos.js';
+import { LOGROS_CAZA } from './scripts/logrosCaza.js';
 import rutaAuth from './rutas/rutaAuth.js';
 import rutaPerfil from './rutas/rutaPerfil.js';
 import rutaNota from './rutas/rutaNota.js';
@@ -46,12 +48,27 @@ async function asegurarValoresEnumLogros() {
     }
 }
 
+// Sin acceso a una consola en producción, los logros de la caza se crean solos si faltan.
+async function asegurarLogrosCaza() {
+    try {
+        for (const logro of LOGROS_CAZA) {
+            await Logro.findOrCreate({
+                where: { trigger_type: logro.trigger_type, threshold: logro.threshold },
+                defaults: logro as any,
+            });
+        }
+    } catch (err: any) {
+        console.warn(`No se pudieron crear los logros de la caza: ${err.message}`);
+    }
+}
+
 export async function conectarBD(retries = 5, delayMs = 3000) {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             await db.authenticate();
             await db.sync({ alter: true });
             await asegurarValoresEnumLogros();
+            await asegurarLogrosCaza();
             return;
         } catch (error) {
             console.error(`Error BD (intento ${attempt}/${retries}):`, error);

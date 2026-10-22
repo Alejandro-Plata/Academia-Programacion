@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Un bichito asustado visto a través de una lupa">
+  <title>Primer bicho cazado</title>
+  <circle cx="64" cy="64" r="60" fill="#0f172a"/>
+  <circle cx="64" cy="64" r="60" fill="none" stroke="#38bdf8" stroke-width="4"/>
+  <g stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" opacity=".55">
+    <path d="M20 40h14M16 52h8M96 30h12M100 44h8"/>
+  </g>
+  <!-- bichito -->
+  <g transform="translate(58 62)">
+    <path d="M-14-16l-8-10M14-16l8-10" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-20 4l-12 4M-20 14l-12 10M20 4l12 4M20 14l12 10" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+    <ellipse cx="0" cy="6" rx="21" ry="24" fill="#ef4444"/>
+    <path d="M0-18v48" stroke="#7f1d1d" stroke-width="2.5"/>
+    <circle cx="-9" cy="12" r="3.5" fill="#7f1d1d"/><circle cx="10" cy="20" r="3.5" fill="#7f1d1d"/>
+    <circle cx="0" cy="-12" r="13" fill="#7f1d1d"/>
+    <circle cx="-5" cy="-14" r="4.5" fill="#fff"/><circle cx="6" cy="-14" r="4.5" fill="#fff"/>
+    <circle cx="-4" cy="-13" r="1.8" fill="#0f172a"/><circle cx="7" cy="-13" r="1.8" fill="#0f172a"/>
+    <path d="M-5-5q5 4 10 0" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M17-26q4 6 0 10q-4-4 0-10z" fill="#38bdf8"/>
+  </g>
+  <!-- lupa -->
+  <circle cx="64" cy="62" r="36" fill="#38bdf8" fill-opacity=".14" stroke="#fbbf24" stroke-width="7"/>
+  <path d="M42 46a28 28 0 0 1 14-10" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".7"/>
+  <path d="M90 90l22 22" stroke="#fbbf24" stroke-width="10" stroke-linecap="round"/>
+  <path d="M90 90l22 22" stroke="#b45309" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+</svg>

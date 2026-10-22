@@ -1,5 +1,6 @@
 import { db } from '../config/db.js';
 import { Logro } from '../modelos/Modelos.js';
+import { LOGROS_CAZA } from './logrosCaza.js';
 
 const LOGROS: Array<{
     title: string;
@@ -78,7 +79,7 @@ const LOGROS: Array<{
 async function run() {
     await db.authenticate();
 
-    for (const logro of LOGROS) {
+    for (const logro of [...LOGROS, ...LOGROS_CAZA]) {
         const existing = await Logro.findOne({
             where: { trigger_type: logro.trigger_type, threshold: logro.threshold, title: logro.title },
         });
