@@ -41,7 +41,7 @@
 | **Editor de código** | Editor **Monaco** integrado en el navegador con ejecución de código en la nube (Judge0) y retos con tests automáticos |
 | **Contenido interactivo** | Escenas 3D con **Three.js** y animaciones con GSAP |
 | **Tiempo real** | **Socket.IO**: mensajería directa y de grupo (con imágenes, audio y vídeo), notificaciones y estados de conexión |
-| **Asistente con IA** | Chatbot **Freya**, con **Groq SDK**, para resolver dudas de programación |
+| **Asistente con IA** | Chatbot **Freya**, con **Google Gemini** (nivel gratuito), para resolver dudas de programación |
 | **Autenticación** | Registro e inicio de sesión local, **OAuth con Google y GitHub** (Passport) y **JWT**; recuperación de contraseña por correo |
 | **Gamificación** | XP, niveles, logros y rachas; retos por dificultad y categoría |
 | **Comunidad** | Foro con publicaciones, votaciones y moderación; además, torneos, mentorías y un *showcase* de proyectos |
@@ -62,14 +62,14 @@
 │  front (Vercel)      │ ──────────────► │  back (Render)         │ ─────► │ PostgreSQL │
 │  React 19 + Vite     │ ◄────────────── │  Express 5 + Sequelize │        └────────────┘
 │  Monaco · Three.js   │   Socket.IO     │  Passport · Swagger    │ ─────► Supabase Storage
-└──────────────────────┘                 └────────────────────────┘ ─────► Groq · Judge0
+└──────────────────────┘                 └────────────────────────┘ ─────► Gemini · Judge0
 ```
 
 | Capa | Tecnologías |
 |---|---|
 | Frontend | React 19, TypeScript, Vite, Tailwind CSS, GSAP, Three.js, Monaco Editor, React Router, React Hook Form, Socket.IO (cliente) |
 | Backend | Node.js, Express 5, TypeScript, Sequelize + PostgreSQL, Passport (Google / GitHub), JWT, bcrypt, Socket.IO, Nodemailer, Multer |
-| Servicios | Groq (IA) · Judge0 (ejecución de código) · Supabase Storage (archivos) |
+| Servicios | Gemini (IA) · Judge0 (ejecución de código) · Supabase Storage (archivos) |
 | Documentación | Swagger / OpenAPI en `/api/docs` |
 | Infraestructura | Docker Compose (PostgreSQL en local) · Vercel (front) · Render (back) |
 

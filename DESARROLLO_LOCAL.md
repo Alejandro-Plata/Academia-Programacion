@@ -63,8 +63,8 @@ GITHUB_CALLBACK_URL=http://localhost:3000/api/v1/auth/github/callback
 
 FRONTEND_URL=http://localhost:5173
 
-# IA (Groq)
-GROQ_API_KEY=tu_groq_api_key
+# IA (Gemini, nivel gratuito: https://aistudio.google.com/apikey)
+AI_API_KEY=tu_api_key_de_gemini
 
 # Base de datos SSL (false en local)
 DB_SSL=false

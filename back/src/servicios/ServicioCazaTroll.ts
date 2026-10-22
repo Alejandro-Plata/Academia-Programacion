@@ -28,7 +28,7 @@ interface BugGenerado {
 const XP_CAZA = 35;
 
 /**
- * Banco de respaldo de bichillos curados manualmente. Se usa cuando la IA (Groq)
+ * Banco de respaldo de bichillos curados manualmente. Se usa cuando la IA
  * o Judge0 no están disponibles, de modo que la caza nunca falle con un 502.
  * Cada bug está verificado a mano: el `bug_line` apunta al fallo real.
  */
@@ -91,7 +91,7 @@ export class ServicioCazaTroll {
     static async iniciar(userId: string, tema = 'lógica de arrays'): Promise<{ hunt_id: string; language: string; buggy_code: string }> {
         let bug: BugGenerado | null = null;
 
-        // Intenta generar un bug con IA (Groq) + verificación con Judge0.
+        // Intenta generar un bug con IA + verificación con Judge0.
         // Si algo falla (sin API key, rate limit, Judge0 caído...), recurre al banco local.
         try {
             for (let intento = 0; intento < 2 && !bug; intento++) {

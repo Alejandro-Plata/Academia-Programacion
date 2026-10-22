@@ -44,7 +44,7 @@ const options: swaggerJSDoc.Options = {
             { name: 'Publicaciones',  description: 'Foro, comentarios y votos' },
             { name: 'Mensajería',     description: 'Conversaciones y mensajes directos' },
             { name: 'Logros',         description: 'Achievements y progreso de XP' },
-            { name: 'Asistente',      description: 'Asistente IA basado en Groq' },
+            { name: 'Asistente',      description: 'Asistente IA (Gemini, nivel gratuito)' },
             { name: 'Búsqueda',       description: 'Búsqueda y perfiles públicos de usuarios' },
             { name: 'Admin',          description: 'Operaciones de administración y moderación' },
             { name: 'Público',        description: 'Endpoints sin autenticación' },
