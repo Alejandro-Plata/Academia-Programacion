@@ -21,7 +21,9 @@ import { challengesService } from '../../services/challengesService';
 import { useUser } from '../../../../context/UserContext';
 import { useAchievements } from '../../../../context/AchievementContext';
 
-export const RetosDesktop = () => {
+interface Props { onStartTour?: () => void; }
+
+export const RetosDesktop = ({ onStartTour }: Props) => {
     const { challenges = [], isLoading, deleteChallenge } = useRetos();
     const { theme } = useTheme();
     const isDark = theme === 'dark';
@@ -200,6 +202,7 @@ export const RetosDesktop = () => {
                         onToggleFreya={() => setShowFreya(prev => !prev)}
                         onOpenPropose={() => setShowPropose(true)}
                         onRun={handleRunCode}
+                        onStartTour={onStartTour}
                         onDeleteChallenge={isModOrAdmin && activeChallenge ? () => {
                             if (confirm('¿Eliminar esta misión? Esta acción no se puede deshacer.')) {
                                 deleteChallenge(activeChallenge.id).then(() => setActiveChallenge(null)).catch(() => {});
@@ -213,6 +216,7 @@ export const RetosDesktop = () => {
                             <div className="flex flex-col border-r overflow-hidden transition-colors h-full w-5/12
                                 bg-slate-50 border-slate-200 dark:bg-[#0a0b0e] dark:border-white/5">
 
+                                <div data-tour="retos-guide-tabs" className="shrink-0">
                                 <TabBar
                                     tabs={leftPanelTabs}
                                     activeTab={leftPanelTab}
@@ -220,6 +224,7 @@ export const RetosDesktop = () => {
                                     fullWidth
                                     className="shrink-0"
                                 />
+                                </div>
 
                                 <div className="flex-1 overflow-y-auto custom-scrollbar relative">
                                     {leftPanelTab === 'guide' && (

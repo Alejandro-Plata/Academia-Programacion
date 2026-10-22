@@ -24,6 +24,7 @@ interface ChallengeBrowseViewProps {
     showPropose: boolean;
     onOpenPropose: () => void;
     onClosePropose: () => void;
+    onStartTour?: () => void;
     onDeleteChallenge?: (challenge: Challenge) => void;
 }
 
@@ -60,6 +61,7 @@ export const VistaExplorarRetos = ({
     onOpenPropose,
     onClosePropose,
     onDeleteChallenge,
+    onStartTour,
 }: ChallengeBrowseViewProps) => {
     const [filtersOpen, setFiltersOpen] = useState(false);
 
@@ -79,14 +81,26 @@ export const VistaExplorarRetos = ({
                         <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Misiones</h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Pon a prueba tus habilidades</p>
                     </div>
-                    <ForjarRetoBoton />
+                    <div className="flex items-center gap-2 shrink-0">
+                        {onStartTour && (
+                            <button
+                                data-tour="retos-help"
+                                onClick={onStartTour}
+                                aria-label="Tutorial de misiones"
+                                className="w-9 h-9 flex items-center justify-center border border-slate-200 dark:border-white/10 text-slate-400 hover:border-emerald-500/40 hover:text-emerald-500 transition-colors font-mono text-xs font-bold"
+                            >
+                                ?
+                            </button>
+                        )}
+                        <ForjarRetoBoton />
+                    </div>
                 </div>
             </div>
 
             {/* Search & Filters */}
             <div className="shrink-0 px-4 pb-2 pt-1 bg-slate-50 dark:bg-[#050505] z-10 border-b border-emerald-500/15 dark:border-emerald-500/10 space-y-2">
                 <div className="flex gap-2">
-                    <div className="relative flex-1">
+                    <div data-tour="retos-search" className="relative flex-1">
                         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 w-5 h-5">
                             {Icons.search}
                         </div>
@@ -103,6 +117,7 @@ export const VistaExplorarRetos = ({
                         const activeCount = (selectedLang !== 'all' ? 1 : 0) + selectedTags.length;
                         return (
                             <button
+                                data-tour="retos-filters"
                                 onClick={() => setFiltersOpen(o => !o)}
                                 className={`relative shrink-0 w-[46px] flex items-center justify-center border transition-colors ${
                                     filtersOpen || activeCount > 0
@@ -181,7 +196,7 @@ export const VistaExplorarRetos = ({
             </div>
 
             {/* Challenge List — BB-2 container */}
-            <div className="flex-1 overflow-y-auto px-4 pb-20 space-y-3 pt-3">
+            <div data-tour="retos-list" className="flex-1 overflow-y-auto px-4 pb-20 space-y-3 pt-3">
                 <div className="flex justify-between items-center py-2">
                     <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">
                         {isLoading ? 'Cargando...' : `${filteredChallenges.length} misiones`}
@@ -242,6 +257,7 @@ export const VistaExplorarRetos = ({
 
             {/* FAB — BB-6 notched */}
             <button
+                data-tour="retos-propose"
                 onClick={onOpenPropose}
                 aria-label="Proponer misión"
                 className="fixed right-6 z-50 w-14 h-14 bg-emerald-500 hover:bg-emerald-400 text-black flex items-center justify-center transition-colors shadow-lg shadow-emerald-500/30"

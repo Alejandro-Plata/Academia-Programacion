@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useTour } from './Tour/TourProvider';
 
 const STORAGE_KEY = 'valhalla:demo-notice-cerrado';
 
@@ -13,12 +14,12 @@ const yaCerrado = (): boolean => {
 
 /**
  * Aviso flotante: la demo corre en servicios gratuitos, así que algunas funciones
- * pueden tardar. Se puede cerrar y no vuelve a salir durante esa visita.
+ * pueden tardar. Se puede cerrar y no vuelve a salir durante esa visita; también se
+ * cierra solo al empezar un tutorial, porque si no tapa elementos que el tutorial señala.
  */
 export const DemoNotice = () => {
     const [visible, setVisible] = useState(() => !yaCerrado());
-
-    if (!visible) return null;
+    const { isActive: tutorialActivo } = useTour();
 
     const cerrar = () => {
         setVisible(false);
@@ -28,6 +29,12 @@ export const DemoNotice = () => {
             /* sin almacenamiento, el aviso simplemente volverá a salir en la próxima visita */
         }
     };
+
+    useEffect(() => {
+        if (tutorialActivo) cerrar();
+    }, [tutorialActivo]);
+
+    if (!visible) return null;
 
     return (
         <div

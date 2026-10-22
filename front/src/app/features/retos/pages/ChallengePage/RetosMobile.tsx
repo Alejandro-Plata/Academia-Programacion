@@ -12,7 +12,9 @@ import { useAchievements } from '../../../../context/AchievementContext';
 import { challengesService } from '../../services/challengesService';
 import { useUser } from '../../../../context/UserContext';
 
-export const RetosMobile = () => {
+interface Props { onStartTour?: () => void; }
+
+export const RetosMobile = ({ onStartTour }: Props) => {
     const { challenges, isLoading, deleteChallenge } = useRetos();
     const { updateUser, user } = useUser();
     const isModOrAdmin = user?.role === 'ADMIN' || user?.role === 'MODERADOR';
@@ -150,6 +152,7 @@ export const RetosMobile = () => {
                 showPropose={showPropose}
                 onOpenPropose={() => setShowPropose(true)}
                 onClosePropose={() => setShowPropose(false)}
+                onStartTour={onStartTour}
                 onDeleteChallenge={isModOrAdmin ? (c) => {
                     if (confirm('¿Eliminar esta misión? Esta acción no se puede deshacer.')) {
                         deleteChallenge(c.id).catch(() => {});

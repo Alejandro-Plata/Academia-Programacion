@@ -50,7 +50,7 @@ export const BarraLateralRetos = ({
             <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500">{challenges.length}</span>
         </div>
 
-        <div className="px-4 pt-4 pb-2">
+        <div data-tour="retos-search" className="px-4 pt-4 pb-2">
             <div className="relative">
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500">
                     {Icons.search}
@@ -79,7 +79,7 @@ export const BarraLateralRetos = ({
             onTagPageChange={onTagPageChange}
         />
 
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1 bg-slate-50/50 dark:bg-[#0a0b0e]">
+        <div data-tour="retos-list" className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1 bg-slate-50/50 dark:bg-[#0a0b0e]">
             {challenges.length > 0 ? (
                 challenges.map(challenge => (
                     <ElementoListaReto

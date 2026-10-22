@@ -46,6 +46,7 @@ export const FiltrosRetos = ({
     return (
         <div className="border-b border-emerald-500/15 dark:border-emerald-500/10">
             <button
+                data-tour="retos-filters"
                 onClick={onToggle}
                 className="w-full flex items-center justify-between px-6 py-3 font-mono text-[11px] uppercase tracking-[0.15em] transition-colors text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
             >

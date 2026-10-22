@@ -17,6 +17,7 @@ interface ChallengeHeaderProps {
     onOpenPropose: () => void;
     onRun: () => void;
     onDeleteChallenge?: () => void;
+    onStartTour?: () => void;
 }
 
 export const EncabezadoReto = ({
@@ -32,6 +33,7 @@ export const EncabezadoReto = ({
     onOpenPropose,
     onRun,
     onDeleteChallenge,
+    onStartTour,
 }: ChallengeHeaderProps) => (
     <header className="h-16 flex items-center justify-between px-6 border-b shrink-0 z-20 backdrop-blur-md transition-colors
         bg-white/80 border-emerald-500/15 dark:bg-[#0a0b0e]/80 dark:border-emerald-500/10 relative gap-4"
@@ -42,6 +44,7 @@ export const EncabezadoReto = ({
         ========================================= */}
         <div className="flex items-center gap-4 flex-1 min-w-0">
             <button
+                data-tour="retos-sidebar-toggle"
                 onClick={onToggleSidebar}
                 title={sidebarCollapsed ? 'Mostrar lista' : 'Ocultar lista'}
                 className="w-8 h-8 flex items-center justify-center shrink-0 transition-colors
@@ -60,6 +63,7 @@ export const EncabezadoReto = ({
 
                 {activeChallenge && (
                     <button
+                        data-tour="retos-propose"
                         onClick={onOpenPropose}
                         title="Proponer una nueva misión"
                         className="flex items-center justify-center w-8 h-8 text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 dark:text-slate-500 dark:hover:text-emerald-400 dark:hover:bg-emerald-500/10 shrink-0 transition-colors"
@@ -73,7 +77,7 @@ export const EncabezadoReto = ({
         {/* =========================================
             CENTRO: Entorno de Ejecución (Lenguaje)
         ========================================= */}
-        <div className="hidden md:flex shrink-0 items-center justify-center">
+        <div data-tour="retos-language" className="hidden md:flex shrink-0 items-center justify-center">
             {activeChallenge && activeChallenge.variants.length > 1 && (
                 <div className="relative inline-flex items-center group">
                     <select
@@ -131,7 +135,18 @@ export const EncabezadoReto = ({
                 </button>
             )}
 
-            <div className="relative group shrink-0">
+            {onStartTour && (
+                <button
+                    data-tour="retos-help"
+                    onClick={onStartTour}
+                    title="Tutorial de misiones"
+                    className="w-8 h-8 flex items-center justify-center shrink-0 border border-slate-200 dark:border-white/10 text-slate-400 hover:border-emerald-500/40 hover:text-emerald-500 transition-colors font-mono text-xs font-bold"
+                >
+                    ?
+                </button>
+            )}
+
+            <div data-tour="retos-freya" className="relative group shrink-0">
                 <button
                     onClick={onToggleFreya}
                     title="Pedir ayuda o diagnosticar con Freya"
@@ -161,7 +176,7 @@ export const EncabezadoReto = ({
 
             <div className="w-px h-6 bg-emerald-500/15 dark:bg-emerald-500/10 shrink-0" />
 
-            <div className="shrink-0">
+            <div data-tour="retos-run" className="shrink-0">
                 <RunButton
                     isRunning={isRunning}
                     onClick={onRun}

@@ -62,7 +62,7 @@ export const PanelEditorReto = ({
     }, [isRunning]);
 
     return (
-        <div className="flex flex-col h-full relative transition-colors overflow-hidden w-7/12
+        <div data-tour="retos-editor" className="flex flex-col h-full relative transition-colors overflow-hidden w-7/12
             bg-slate-50 dark:bg-[#08090b]">
 
             {/* Editor — ocupa todo el espacio disponible */}
@@ -90,7 +90,7 @@ export const PanelEditorReto = ({
             </div>
 
             {/* Terminal — siempre visible debajo del editor */}
-            <div className="h-52 flex-shrink-0" ref={terminalRef}>
+            <div data-tour="retos-terminal" className="h-52 flex-shrink-0" ref={terminalRef}>
                 <TerminalOutput
                     logs={consoleOutput}
                     isRunning={isRunning}

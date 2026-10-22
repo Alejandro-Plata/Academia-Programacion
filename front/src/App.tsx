@@ -9,6 +9,7 @@ import { MessagingProvider } from './app/context/MessagingProvider';
 import { TourProvider } from './app/components/Tour/TourProvider';
 import { DemoNotice } from './app/components/DemoNotice';
 import { notesTourSteps, NOTES_TOUR_ID } from './app/features/notes/tour/tourSteps.notes';
+import { retosTourSteps, retosMobileTourSteps, RETOS_TOUR_ID, RETOS_MOBILE_TOUR_ID } from './app/features/retos/tour/tourSteps.retos';
 
 const LayoutPanel        = lazy(() => import('./app/layouts').then(m => ({ default: m.LayoutPanel })));
 const LandingPage        = lazy(() => import('./app/features/landing/LandingPage').then(m => ({ default: m.LandingPage })));
@@ -57,7 +58,11 @@ export default function App() {
         <AchievementProvider>
           <MessagingProvider>
             <BrowserRouter>
-              <TourProvider tours={{ [NOTES_TOUR_ID]: notesTourSteps }}>
+              <TourProvider tours={{
+                [NOTES_TOUR_ID]: notesTourSteps,
+                [RETOS_TOUR_ID]: retosTourSteps,
+                [RETOS_MOBILE_TOUR_ID]: retosMobileTourSteps,
+              }}>
               <Suspense fallback={<PageFallback />}>
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
